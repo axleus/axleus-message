@@ -1,0 +1,70 @@
+{
+    "name": "axleus/axleus-message",
+    "description": "Event driven message service for axleus applications",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "axleus",
+        "mezzio",
+        "message abstraction"
+    ],
+    "authors": [
+        {
+            "name": "Joey Smith",
+            "email": "jsmith@webinertia.net",
+            "homepage": "https://github.com/axleus/message/discussions"
+        }
+    ],
+    "suggest": {
+    },
+    "require": {
+        "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+        "axleus/mailer": "dev-master",
+        "laminas/laminas-eventmanager": "^3.13.1"
+    },
+    "require-dev": {
+        "laminas/laminas-coding-standard": "^2.5",
+        "phpunit/phpunit": "^10.2",
+        "psalm/plugin-phpunit": "^0.18.4",
+        "roave/security-advisories": "dev-master",
+        "vimeo/psalm": "^5.14"
+    },
+    "extra": {
+        "laminas": {
+            "config-provider": "Axleus\\Message\\ConfigProvider"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Axleus\\Message\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AxleusTest\\Message\\": "test/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@static-analysis",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "static-analysis": "psalm --shepherd --stats",
+        "test": "phpunit --colors=always --testsuite \"unit test\"",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "test-integration": "phpunit --colors=always --testsuite \"integration test\""
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.1.99"
+        },
+        "allow-plugins": {
+            "laminas/laminas-component-installer": true,
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}
