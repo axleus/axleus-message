@@ -7,15 +7,17 @@
         "mezzio",
         "message abstraction"
     ],
+    "homepage": "https://github.com/orgs/axleus/discussions",
+    "support": {
+        "issues": "https://github.com/axleus/axleus-message/issues",
+        "chat": "https://discord.gg/9TxQ74EPsG"
+    },
     "authors": [
         {
             "name": "Joey Smith",
-            "email": "jsmith@webinertia.net",
-            "homepage": "https://github.com/axleus/message/discussions"
+            "email": "jsmith@webinertia.net"
         }
     ],
-    "suggest": {
-    },
     "require": {
         "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
         "axleus/mailer": "dev-master",
