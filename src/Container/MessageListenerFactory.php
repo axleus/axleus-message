@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Axleus\Message;
+namespace Axleus\Message\Container;
 
 use Axleus\Mailer\MailerInterface;
 use Mezzio\Helper\UrlHelper;
