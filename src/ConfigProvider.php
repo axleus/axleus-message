@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Axleus\Message;
 
-use Laminas\EventManager;
-
 class ConfigProvider
 {
     public function __invoke() : array
     {
         return [
-            'dependencies'      => $this->getDependencies(),
-            'message_listeners' => $this->getMessageListeners(),
-            'templates'         => $this->getTemplates(),
-            'view_helpers'      => $this->getViewHelpers(),
+            'dependencies' => $this->getDependencies(),
+            'listeners'    => $this->getMessageListeners(),
+            'templates'    => $this->getTemplates(),
+            'view_helpers' => $this->getViewHelpers(),
         ];
     }
 
@@ -22,31 +20,18 @@ class ConfigProvider
     {
         return [
             'aliases'    => [
-                EventManager\EventManagerInterface::class       => EventManager\EventManager::class,
-                'EventManager'                                  => EventManager\EventManager::class,
-                EventManager\SharedEventManagerInterface::class => EventManager\SharedEventManager::class,
-                'SharedEventManager'                            => EventManager\SharedEventManager::class,
-                SystemMessengerInterface::class                 => SystemMessenger::class,
-            ],
-            'delegators' => [
-                EventManager\EventManager::class => [
-                    Container\MessageListenerAttachmentDelegator::class,
-                ],
-            ],
-            'invokables' => [
+                SystemMessengerInterface::class => SystemMessenger::class,
             ],
             'factories'  => [
-                EventManager\EventManager::class         => Container\EventManagerFactory::class,
-                EventManager\SharedEventManager::class   => static fn() => new EventManager\SharedEventManager(),
-                MessageListener::class                   => MessageListenerFactory::class,
-                Middleware\MessageMiddleware::class      => Middleware\MessageMiddlewareFactory::class,
+                MessageListener::class              => Container\MessageListenerFactory::class,
+                Middleware\MessageMiddleware::class => Middleware\MessageMiddlewareFactory::class,
             ],
         ];
     }
 
     public function getMessageListeners(): array
     {
-        return [];
+        return [MessageListener::class];
     }
 
     public function getTemplates(): array
