@@ -33,8 +33,6 @@ final class MessageMiddleware implements MiddlewareInterface
         );
         // inject the SystemMessenger into the listener instance
         $this->messageListener->setSystemMessenger($systemMessenger);
-        // attach the default listener
-        $this->messageListener->attach($this->em);
         // inject SystemMessenger into the helper instance
         $this->helper->setMessenger($systemMessenger);
         // next in the stack

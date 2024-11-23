@@ -10,7 +10,7 @@ class ConfigProvider
     {
         return [
             'dependencies' => $this->getDependencies(),
-            'listeners'    => $this->getMessageListeners(),
+            'listeners'    => $this->getListeners(),
             'templates'    => $this->getTemplates(),
             'view_helpers' => $this->getViewHelpers(),
         ];
@@ -29,9 +29,11 @@ class ConfigProvider
         ];
     }
 
-    public function getMessageListeners(): array
+    public function getListeners(): array
     {
-        return [MessageListener::class];
+        return [
+            [MessageListener::class],
+        ];
     }
 
     public function getTemplates(): array
