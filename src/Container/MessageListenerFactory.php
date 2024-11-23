@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Axleus\Message\Container;
 
 use Axleus\Mailer\MailerInterface;
+use Axleus\Message\MessageListener;
 use Mezzio\Helper\UrlHelper;
 use Psr\Container\ContainerInterface;
 
