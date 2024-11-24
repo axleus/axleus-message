@@ -32,7 +32,9 @@ class ConfigProvider
     public function getListeners(): array
     {
         return [
-            [MessageListener::class],
+            [
+                'listener' => MessageListener::class,
+            ],
         ];
     }
 
