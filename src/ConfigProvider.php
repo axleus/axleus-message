@@ -31,11 +31,7 @@ class ConfigProvider
 
     public function getListeners(): array
     {
-        return [
-            [
-                'listener' => MessageListener::class,
-            ],
-        ];
+        return [MessageListener::class];
     }
 
     public function getTemplates(): array
