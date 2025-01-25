@@ -36,11 +36,13 @@ final class MessageListener extends AbstractListenerAggregate
      */
     public function onSystemMessage(SystemMessage $e): void
     {
-        $message = $e->getSystemMessage() ?? static::DEFAULT_MESSAGE;
+        $message = $e->getMessage() ?? static::DEFAULT_MESSAGE;
+        $level   = $e->getLevel();
+
         if ($e->getNow()) {
-            $this->messenger->sendNow($e->getSystemMessageKey(), $message, $e->getHops());
+            $this->messenger->sendNow($e->getLevel(), $message, $e->getHops());
         } else {
-            $this->messenger->send($e->getSystemMessageKey(), $message, $e->getHops());
+            $this->messenger->send($e->getLevel(), $message, $e->getHops());
         }
     }
 
