@@ -32,26 +32,15 @@ class SystemMessage extends Event implements SystemMessageCapableInterface
         return $this->getParam('response');
     }
 
-    public function setSystemMessageKey(string $systemMessageKey): self
+    public function setMessage(string $message): self
     {
-        $this->setParam('systemMessageKey', $systemMessageKey);
+        $this->setParam('message', $message);
         return $this;
     }
 
-    public function getSystemMessageKey(): string
+    public function getMessage(): ?string
     {
-        return $this->getParam('systemMessageKey', self::SYSTEM_MESSAGE_KEY);
-    }
-
-    public function setSystemMessage(string $systemMessage): self
-    {
-        $this->setParam(self::SYSTEM_MESSAGE_KEY, $systemMessage);
-        return $this;
-    }
-
-    public function getSystemMessage(): ?string
-    {
-        return $this->getParam(self::SYSTEM_MESSAGE_KEY);
+        return $this->getParam('message');
     }
 
     public function setHops(int $hops = 1): self
@@ -85,5 +74,16 @@ class SystemMessage extends Event implements SystemMessageCapableInterface
     public function getNotify(): bool
     {
         return $this->getParam('notify', false);
+    }
+
+    public function setLevel(MessageLevel|string $level): self
+    {
+        $this->setParam('level', $level);
+        return $this;
+    }
+
+    public function getLevel(): MessageLevel|string
+    {
+        return $this->getParam('level', MessageLevel::Info);
     }
 }

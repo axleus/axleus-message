@@ -34,6 +34,6 @@ final class MessageMiddleware implements MiddlewareInterface
         // inject SystemMessenger into the helper instance
         $this->helper->setMessenger($systemMessenger);
         // next in the stack
-        return $handler->handle($request);
+        return $handler->handle($request->withAttribute(SystemMessengerInterface::class, $systemMessenger));
     }
 }

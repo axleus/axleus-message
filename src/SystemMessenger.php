@@ -30,16 +30,25 @@ class SystemMessenger implements SystemMessengerInterface
      * @param mixed $message
      * @throws Exception\InvalidHopsValueException
      */
-    public function send(string $key, $message, int $hops = 1): void
-    {
+    public function send(
+        string $message,
+        MessageLevel|string|null $key = MessageLevel::Info->value,
+        ?int $hops = 1
+        ): void {
+
         if ($hops < 1) {
             throw Exception\InvalidHopsValueException::valueTooLow($key, $hops);
+        }
+
+        if ($key instanceof MessageLevel) {
+            $key = $key->value;
         }
 
         $messages       = $this->getStoredMessages();
         $messages[$key] = [
             'message' => $message,
-            'hops'  => $hops,
+            'hops'    => $hops,
+            'key'     => $key,
         ];
         $this->session->set($this->sessionKey, $messages);
     }
@@ -56,12 +65,35 @@ class SystemMessenger implements SystemMessengerInterface
      *
      * @param mixed $message
      */
-    public function sendNow(string $key, string $message, int $hops = 1): void
-    {
+    public function sendNow(
+        string $message,
+        MessageLevel|string|null $key = MessageLevel::Info->value,
+        ?int $hops = 1,
+        ): void {
         $this->currentMessages[$key] = $message;
         if ($hops > 0) {
             $this->send($key, $message, $hops);
         }
+    }
+
+    public function danger(string $message, ?int $hops = 1): void
+    {
+        $this->send($message, MessageLevel::Danger->value, $hops);
+    }
+
+    public function info(string $message, ?int $hops = 1): void
+    {
+        $this->send($message, MessageLevel::Info->value, $hops);
+    }
+
+    public function success(string $message, ?int $hops = 1): void
+    {
+        $this->send($message, MessageLevel::Success->value, $hops);
+    }
+
+    public function warning(string $message, ?int $hops = 1): void
+    {
+        $this->send($message, MessageLevel::Warning->value, $hops);
     }
 
     /**
@@ -132,7 +164,8 @@ class SystemMessenger implements SystemMessengerInterface
         $currentMessages = [];
         foreach ($sessionMessages as $key => $data) {
 
-            $currentMessages[$key] = $data['message'];
+            // $data['key'] = $key;
+            $currentMessages[$key] = $data;
 
             if ($data['hops'] === 1) {
                 unset($sessionMessages[$key]);
