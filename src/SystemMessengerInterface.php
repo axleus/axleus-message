@@ -24,8 +24,8 @@ interface SystemMessengerInterface
     public function getMessages(): array;
     public function clearMessages(): void;
     public function addHop(): void;
-    public function danger(string $message, ?int $hops = 1): void;
-    public function info(string $message, ?int $hops = 1): void;
-    public function success(string $message, ?int $hops = 1): void;
-    public function warning(string $message, ?int $hops = 1): void;
+    public function danger(string $message, ?int $hops = 1, bool $now = true): void;
+    public function info(string $message, ?int $hops = 1, bool $now = true): void;
+    public function success(string $message, ?int $hops = 1, bool $now = true): void;
+    public function warning(string $message, ?int $hops = 1, bool $now = true): void;
 }
