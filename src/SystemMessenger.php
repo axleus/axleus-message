@@ -76,24 +76,28 @@ class SystemMessenger implements SystemMessengerInterface
         }
     }
 
-    public function danger(string $message, ?int $hops = 1): void
+    public function danger(string $message, ?int $hops = 0, bool $now = true): void
     {
-        $this->send($message, MessageLevel::Danger->value, $hops);
+        $now ? $this->sendNow($message, MessageLevel::Danger->value, $hops)
+            : $this->send($message, MessageLevel::Danger->value, $hops);
     }
 
-    public function info(string $message, ?int $hops = 1): void
+    public function info(string $message, ?int $hops = 0, bool $now = true): void
     {
-        $this->send($message, MessageLevel::Info->value, $hops);
+        $now ? $this->sendNow($message, MessageLevel::Info->value, $hops)
+            : $this->send($message, MessageLevel::Info->value, $hops);
     }
 
-    public function success(string $message, ?int $hops = 1): void
+    public function success(string $message, ?int $hops = 0, bool $now = true): void
     {
-        $this->send($message, MessageLevel::Success->value, $hops);
+        $now ? $this->sendNow($message, MessageLevel::Success->value, $hops)
+            : $this->send($message, MessageLevel::Success->value, $hops);
     }
 
-    public function warning(string $message, ?int $hops = 1): void
+    public function warning(string $message, ?int $hops = 0, bool $now = true): void
     {
-        $this->send($message, MessageLevel::Warning->value, $hops);
+        $now ? $this->sendNow($message, MessageLevel::Warning->value, $hops)
+            : $this->send($message, MessageLevel::Warning->value, $hops);
     }
 
     /**

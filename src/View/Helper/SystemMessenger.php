@@ -49,7 +49,7 @@ class SystemMessenger
                 $key->value,
                 MessageIcon::tryFromLevel($key->value)->value,
                 $key->name,
-                $systemMessages[$key->value]['message']
+                $systemMessages[$key->value]
             );
         }
         return $messages;
