@@ -8,8 +8,11 @@ use Laminas\EventManager\Event;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class SystemMessage extends Event implements SystemMessageCapableInterface
+class SystemMessage extends Event
 {
+    public const EVENT_SYSTEM_MESSAGE = 'systemMessage';
+    public const SYSTEM_MESSAGE_KEY   = self::EVENT_SYSTEM_MESSAGE;
+
     public function setRequest(ServerRequestInterface $request): self
     {
         $this->setParam('request', $request);
