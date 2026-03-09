@@ -1,6 +1,6 @@
 {
     "name": "axleus/axleus-message",
-    "description": "Event driven message service for axleus applications",
+    "description": "Webware CommandBus driven message service for axleus applications",
     "license": "BSD-3-Clause",
     "keywords": [
         "axleus",
@@ -18,18 +18,29 @@
             "email": "jsmith@webinertia.net"
         }
     ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../webware/*"
+        }
+    ],
     "require": {
-        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
-        "axleus/axleus-core": "dev-master",
-        "axleus/axleus-mailer": "dev-master",
-        "laminas/laminas-eventmanager": "^3.13.1"
+        "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+        "mezzio/mezzio-session-ext": "^1.21.0",
+        "webware/command-bus": "^0.5.0"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "^3.0",
-        "phpunit/phpunit": "^11.0",
-        "psalm/plugin-phpunit": "^0.19.0",
+        "axleus/axleus-mailer": "dev-master",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpunit/phpunit": "^11.5.42",
+        "psr/http-message": "^2.0",
+        "psr/http-server-handler": "^1.0",
+        "psr/http-server-middleware": "^1.0",
         "roave/security-advisories": "dev-master",
-        "vimeo/psalm": "^5.14"
+        "webware/coding-standard": "^0.1.0",
+        "webware/commandbus-event": "0.1.x-dev",
+        "webware/traccio": "^0.1.0"
     },
     "extra": {
         "laminas": {
@@ -49,25 +60,27 @@
     "scripts": {
         "check": [
             "@cs-check",
-            "@static-analysis",
+            "@sa",
             "@test"
         ],
-        "cs-check": "phpcs",
-        "cs-fix": "phpcbf",
-        "static-analysis": "psalm --shepherd --stats",
-        "test": "phpunit --colors=always --testsuite \"unit test\"",
+        "cs-check": "vendor/bin/php-cs-fixer check",
+        "cs-fix": "vendor/bin/php-cs-fixer fix",
+        "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
-        "test-integration": "phpunit --colors=always --testsuite \"integration test\""
+        "sa": "vendor/bin/phpstan analyse --memory-limit=256M",
+        "sa-gen-baseline": "vendor/bin/phpstan analyse --memory-limit=256M --generate-baseline",
+        "sa-verbose": "vendor/bin/phpstan analyse --memory-limit=256M -vv"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "8.1.99"
+            "php": "8.2.99"
         },
         "allow-plugins": {
             "laminas/laminas-component-installer": true,
-            "composer/package-versions-deprecated": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "composer/package-versions-deprecated": true
         }
     }
 }
