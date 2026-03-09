@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Axleus\Message;
 
-use Laminas\EventManager\Event;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Webware\CommandBus\Event\Event;
 
 class SystemMessage extends Event
 {

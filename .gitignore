@@ -1,0 +1,10 @@
+/.php-cs-fixer.cache
+/.phpunit.cache
+/.phpunit.result.cache
+/.phpstan-cache
+/phpstan.neon
+/phpbench.json
+/clover.xml
+/coveralls-upload.json
+/phpunit.xml
+/vendor/

@@ -10,13 +10,13 @@ interface SystemMessengerInterface
 
     public function send(
         string $message,
-        MessageLevel|string|null $key = MessageLevel::Info->value,
+        MessageLevel|string|null $key = MessageLevel::Info,
         ?int $hops = 1
     ): void;
 
     public function sendNow(
         string $message,
-        MessageLevel|string|null $key = MessageLevel::Info->value,
+        MessageLevel|string|null $key = MessageLevel::Info,
         ?int $hops = 1
     ): void;
 
