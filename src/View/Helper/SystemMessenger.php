@@ -2,19 +2,28 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of the Axleus Axleus Message package.
+ *
+ * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
+ * and contributors.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Axleus\Message\View\Helper;
 
 use Axleus\Message\MessageIcon;
 use Axleus\Message\MessageLevel;
 use Axleus\Message\SystemMessage;
-
 use Axleus\Message\SystemMessenger as Messenger;
 
 use function sprintf;
 
 class SystemMessenger
 {
-    public final const MESSAGE_KEY = SystemMessage::SYSTEM_MESSAGE_KEY;
+    final public const MESSAGE_KEY = SystemMessage::SYSTEM_MESSAGE_KEY;
 
     private const MESSAGE_TOAST = <<<'EOT'
         <div class="toast" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true">
@@ -30,13 +39,14 @@ class SystemMessenger
     EOT;
 
     private ?string $systemMessage;
+
     private Messenger $messenger;
 
     public function __invoke(
         string $messageLevel = MessageLevel::Info->value,
-        $default = null
+        $default = null,
     ) {
-        $levels = MessageLevel::cases();
+        $levels   = MessageLevel::cases();
         $messages = '';
         foreach ($levels as $key) {
             $systemMessages = $this->messenger->getMessages();
@@ -52,6 +62,7 @@ class SystemMessenger
                 $systemMessages[$key->value]
             );
         }
+
         return $messages;
     }
 

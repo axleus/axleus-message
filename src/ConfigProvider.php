@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of the Axleus Axleus Message package.
+ *
+ * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
+ * and contributors.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Axleus\Message;
 
 use Webware\CommandBus\ConfigProvider as BusProvider;
@@ -10,7 +20,7 @@ final readonly class ConfigProvider
 {
     public const MESSAGE_TEMPLATES = 'message_templates';
 
-    public function __invoke() : array
+    public function __invoke(): array
     {
         return [
             'dependencies'                  => $this->getDependencies(),
@@ -24,10 +34,10 @@ final readonly class ConfigProvider
     public function getDependencies(): array
     {
         return [
-            'aliases'    => [
+            'aliases'   => [
                 SystemMessengerInterface::class => SystemMessenger::class,
             ],
-            'factories'  => [
+            'factories' => [
                 CommandBus\PostHandleMiddleware::class => CommandBus\PostHandleMiddlewareFactory::class,
                 Middleware\MessageMiddleware::class    => Middleware\MessageMiddlewareFactory::class,
             ],
@@ -56,6 +66,7 @@ final readonly class ConfigProvider
             ],
         ];
     }
+
     public function getMessageTemplates(): array
     {
         return [

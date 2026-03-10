@@ -2,13 +2,22 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of the Axleus Axleus Message package.
+ *
+ * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
+ * and contributors.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Axleus\Message;
 
 use Mezzio\Session\SessionInterface;
 
 /**
  * original code by Mezzio\Flash
- * @package Message
  */
 class SystemMessenger implements SystemMessengerInterface
 {
@@ -33,14 +42,13 @@ class SystemMessenger implements SystemMessengerInterface
     public function send(
         string $message,
         MessageLevel $key = MessageLevel::Info,
-        ?int $hops = 1
-        ): void {
-
+        ?int $hops = 1,
+    ): void {
         if ($hops < 1) {
             throw Exception\InvalidHopsValueException::valueTooLow($key->value, $hops);
         }
 
-        $messages       = $this->getStoredMessages();
+        $messages              = $this->getStoredMessages();
         $messages[$key->value] = [
             'message' => $message,
             'hops'    => $hops,
@@ -65,7 +73,7 @@ class SystemMessenger implements SystemMessengerInterface
         string $message,
         MessageLevel $key = MessageLevel::Info,
         ?int $hops = 1,
-        ): void {
+    ): void {
         $this->currentMessages[$key->value] = $message;
         if ($hops > 0) {
             $this->send($message, $key, $hops);
@@ -163,16 +171,16 @@ class SystemMessenger implements SystemMessengerInterface
         /** @var array<string,mixed> $currentMessages */
         $currentMessages = [];
         foreach ($sessionMessages as $key => $data) {
-
             // $data['key'] = $key;
             $currentMessages[$key] = $data;
 
             if ($data['hops'] === 1) {
                 unset($sessionMessages[$key]);
+
                 continue;
             }
 
-            $data['hops']         -= 1;
+            $data['hops'] -= 1;
             $sessionMessages[$key] = $data;
         }
 
@@ -190,6 +198,7 @@ class SystemMessenger implements SystemMessengerInterface
     {
         /** @var StoredMessages|null $messages */
         $messages = $this->session->get($sessionKey ?? $this->sessionKey, []);
+
         return $messages ?? [];
     }
 }

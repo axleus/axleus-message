@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of the Axleus Axleus Message package.
+ *
+ * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
+ * and contributors.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Axleus\Message;
 
 interface SystemMessengerInterface
@@ -11,21 +21,28 @@ interface SystemMessengerInterface
     public function send(
         string $message,
         MessageLevel $key = MessageLevel::Info,
-        ?int $hops = 1
+        ?int $hops = 1,
     ): void;
 
     public function sendNow(
         string $message,
         MessageLevel $key = MessageLevel::Info,
-        ?int $hops = 1
+        ?int $hops = 1,
     ): void;
 
     public function getMessage(MessageLevel $key, $default = null);
+
     public function getMessages(): array;
+
     public function clearMessages(): void;
+
     public function addHop(): void;
+
     public function danger(string $message, ?int $hops = 1, bool $now = true): void;
+
     public function info(string $message, ?int $hops = 1, bool $now = true): void;
+
     public function success(string $message, ?int $hops = 1, bool $now = true): void;
+
     public function warning(string $message, ?int $hops = 1, bool $now = true): void;
 }
