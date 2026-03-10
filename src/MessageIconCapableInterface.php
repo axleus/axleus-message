@@ -12,9 +12,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Axleus\Message\Exception;
+namespace Axleus\Message;
 
-/**
- * Marker interface for package exceptions.
- */
-interface ExceptionInterface {}
+interface MessageIconCapableInterface
+{
+    public function getMessageIcon(): ?MessageIcon;
+}

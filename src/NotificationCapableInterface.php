@@ -12,9 +12,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Axleus\Message\Exception;
+namespace Axleus\Message;
 
-/**
- * Marker interface for package exceptions.
- */
-interface ExceptionInterface {}
+interface NotificationCapableInterface
+{
+    public const MESSAGE_SUCCESS = 'success';
+
+    public const MESSAGE_FAILURE = 'failure';
+
+    public function getNotify(): bool;
+
+    public function getNotifyNow(): bool;
+}

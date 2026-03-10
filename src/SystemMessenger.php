@@ -2,13 +2,22 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of the Axleus Axleus Message package.
+ *
+ * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
+ * and contributors.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Axleus\Message;
 
 use Mezzio\Session\SessionInterface;
 
 /**
  * original code by Mezzio\Flash
- * @package Message
  */
 class SystemMessenger implements SystemMessengerInterface
 {
@@ -32,23 +41,18 @@ class SystemMessenger implements SystemMessengerInterface
      */
     public function send(
         string $message,
-        MessageLevel|string|null $key = MessageLevel::Info->value,
-        ?int $hops = 1
-        ): void {
-
+        MessageLevel $key = MessageLevel::Info,
+        ?int $hops = 1,
+    ): void {
         if ($hops < 1) {
-            throw Exception\InvalidHopsValueException::valueTooLow($key, $hops);
+            throw Exception\InvalidHopsValueException::valueTooLow($key->value, $hops);
         }
 
-        if ($key instanceof MessageLevel) {
-            $key = $key->value;
-        }
-
-        $messages       = $this->getStoredMessages();
-        $messages[$key] = [
+        $messages              = $this->getStoredMessages();
+        $messages[$key->value] = [
             'message' => $message,
             'hops'    => $hops,
-            'key'     => $key,
+            'key'     => $key->value,
         ];
         $this->session->set($this->sessionKey, $messages);
     }
@@ -67,37 +71,37 @@ class SystemMessenger implements SystemMessengerInterface
      */
     public function sendNow(
         string $message,
-        MessageLevel|string|null $key = MessageLevel::Info->value,
+        MessageLevel $key = MessageLevel::Info,
         ?int $hops = 1,
-        ): void {
-        $this->currentMessages[$key] = $message;
+    ): void {
+        $this->currentMessages[$key->value] = $message;
         if ($hops > 0) {
-            $this->send($key, $message, $hops);
+            $this->send($message, $key, $hops);
         }
     }
 
     public function danger(string $message, ?int $hops = 0, bool $now = true): void
     {
-        $now ? $this->sendNow($message, MessageLevel::Danger->value, $hops)
-            : $this->send($message, MessageLevel::Danger->value, $hops);
+        $now ? $this->sendNow($message, MessageLevel::Danger, $hops)
+            : $this->send($message, MessageLevel::Danger, $hops);
     }
 
     public function info(string $message, ?int $hops = 0, bool $now = true): void
     {
-        $now ? $this->sendNow($message, MessageLevel::Info->value, $hops)
-            : $this->send($message, MessageLevel::Info->value, $hops);
+        $now ? $this->sendNow($message, MessageLevel::Info, $hops)
+            : $this->send($message, MessageLevel::Info, $hops);
     }
 
     public function success(string $message, ?int $hops = 0, bool $now = true): void
     {
-        $now ? $this->sendNow($message, MessageLevel::Success->value, $hops)
-            : $this->send($message, MessageLevel::Success->value, $hops);
+        $now ? $this->sendNow($message, MessageLevel::Success, $hops)
+            : $this->send($message, MessageLevel::Success, $hops);
     }
 
     public function warning(string $message, ?int $hops = 0, bool $now = true): void
     {
-        $now ? $this->sendNow($message, MessageLevel::Warning->value, $hops)
-            : $this->send($message, MessageLevel::Warning->value, $hops);
+        $now ? $this->sendNow($message, MessageLevel::Warning, $hops)
+            : $this->send($message, MessageLevel::Warning, $hops);
     }
 
     /**
@@ -111,9 +115,9 @@ class SystemMessenger implements SystemMessengerInterface
      * @param mixed $default Default value to return if no message value exists.
      * @return mixed
      */
-    public function getMessage(string $key, $default = null)
+    public function getMessage(MessageLevel $key, $default = null)
     {
-        return $this->currentMessages[$key] ?? $default;
+        return $this->currentMessages[$key->value] ?? $default;
     }
 
     /**
@@ -167,16 +171,16 @@ class SystemMessenger implements SystemMessengerInterface
         /** @var array<string,mixed> $currentMessages */
         $currentMessages = [];
         foreach ($sessionMessages as $key => $data) {
-
             // $data['key'] = $key;
             $currentMessages[$key] = $data;
 
             if ($data['hops'] === 1) {
                 unset($sessionMessages[$key]);
+
                 continue;
             }
 
-            $data['hops']         -= 1;
+            $data['hops'] -= 1;
             $sessionMessages[$key] = $data;
         }
 
@@ -194,6 +198,7 @@ class SystemMessenger implements SystemMessengerInterface
     {
         /** @var StoredMessages|null $messages */
         $messages = $this->session->get($sessionKey ?? $this->sessionKey, []);
+
         return $messages ?? [];
     }
 }

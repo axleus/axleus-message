@@ -1,2 +1,301 @@
 parameters:
 	ignoreErrors:
+		-
+			message: '#^Cannot access offset ''failure'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/CommandBus/PostHandleMiddleware.php
+
+		-
+			message: '#^Cannot access offset ''success'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/CommandBus/PostHandleMiddleware.php
+
+		-
+			message: '#^Match arm comparison between Webware\\CommandBus\\Command\\CommandStatus\:\:Failure and Webware\\CommandBus\\Command\\CommandStatus\:\:Failure is always true\.$#'
+			identifier: match.alwaysTrue
+			count: 1
+			path: src/CommandBus/PostHandleMiddleware.php
+
+		-
+			message: '#^Method Axleus\\Message\\CommandBus\\PostHandleMiddleware\:\:__construct\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/CommandBus/PostHandleMiddleware.php
+
+		-
+			message: '#^Parameter \#1 \$message of method Axleus\\Message\\SystemMessengerInterface\:\:send\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/CommandBus/PostHandleMiddleware.php
+
+		-
+			message: '#^Parameter \#1 \$message of method Axleus\\Message\\SystemMessengerInterface\:\:sendNow\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/CommandBus/PostHandleMiddleware.php
+
+		-
+			message: '#^Cannot access offset ''Axleus\\\\Message\\\\SystemMessengerInterface'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/CommandBus/PostHandleMiddlewareFactory.php
+
+		-
+			message: '#^Cannot access offset ''message_templates'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/CommandBus/PostHandleMiddlewareFactory.php
+
+		-
+			message: '#^Parameter \#1 \$systemMessenger of class Axleus\\Message\\CommandBus\\PostHandleMiddleware constructor expects Axleus\\Message\\SystemMessengerInterface, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/CommandBus/PostHandleMiddlewareFactory.php
+
+		-
+			message: '#^Parameter \#2 \$config of class Axleus\\Message\\CommandBus\\PostHandleMiddleware constructor expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/CommandBus/PostHandleMiddlewareFactory.php
+
+		-
+			message: '#^Method Axleus\\Message\\ConfigProvider\:\:__invoke\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: '#^Method Axleus\\Message\\ConfigProvider\:\:getCommandBusConfig\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: '#^Method Axleus\\Message\\ConfigProvider\:\:getDependencies\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: '#^Method Axleus\\Message\\ConfigProvider\:\:getMessageTemplates\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: '#^Method Axleus\\Message\\ConfigProvider\:\:getTemplates\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: '#^Method Axleus\\Message\\ConfigProvider\:\:getViewHelpers\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: '#^Class Mezzio\\Helper\\UrlHelper not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Container/MessageListenerFactory.php
+
+		-
+			message: '#^Instantiated class Axleus\\Message\\MessageListener not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Container/MessageListenerFactory.php
+
+		-
+			message: '#^Method Axleus\\Message\\Container\\MessageListenerFactory\:\:__invoke\(\) has invalid return type Axleus\\Message\\MessageListener\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Container/MessageListenerFactory.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: null$#'
+			identifier: match.unhandled
+			count: 1
+			path: src/MessageIcon.php
+
+		-
+			message: '#^Trait Axleus\\Message\\MessageIconCapableTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: src/MessageIconCapableTrait.php
+
+		-
+			message: '#^Parameter \#1 \$session of class Axleus\\Message\\SystemMessenger constructor expects Mezzio\\Session\\SessionInterface, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Middleware/MessageMiddleware.php
+
+		-
+			message: '#^Cannot call method get\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Middleware/MessageMiddlewareFactory.php
+
+		-
+			message: '#^Class Axleus\\Message\\MessageListener not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Middleware/MessageMiddlewareFactory.php
+
+		-
+			message: '#^Class Axleus\\Message\\Middleware\\MessageMiddleware constructor invoked with 2 parameters, 1 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/Middleware/MessageMiddlewareFactory.php
+
+		-
+			message: '#^Class Laminas\\View\\HelperPluginManager not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Middleware/MessageMiddlewareFactory.php
+
+		-
+			message: '#^Parameter \#1 \$helper of class Axleus\\Message\\Middleware\\MessageMiddleware constructor expects Axleus\\Message\\View\\Helper\\SystemMessenger, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Middleware/MessageMiddlewareFactory.php
+
+		-
+			message: '#^Trait Axleus\\Message\\NotificationCapableTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: src/NotificationCapableTrait.php
+
+		-
+			message: '#^Binary operation "\-\=" between mixed and 1 results in an error\.$#'
+			identifier: assignOp.invalid
+			count: 1
+			path: src/SystemMessenger.php
+
+		-
+			message: '#^Cannot access offset ''hops'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/SystemMessenger.php
+
+		-
+			message: '#^Method Axleus\\Message\\SystemMessenger\:\:getMessages\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/SystemMessenger.php
+
+		-
+			message: '#^Method Axleus\\Message\\SystemMessenger\:\:getStoredMessages\(\) has invalid return type Axleus\\Message\\StoredMessages\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/SystemMessenger.php
+
+		-
+			message: '#^Method Axleus\\Message\\SystemMessenger\:\:getStoredMessages\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/SystemMessenger.php
+
+		-
+			message: '#^Method Axleus\\Message\\SystemMessenger\:\:getStoredMessages\(\) should return array but returns array\|Axleus\\Message\\StoredMessages\.$#'
+			identifier: return.type
+			count: 1
+			path: src/SystemMessenger.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$message with type mixed is not subtype of native type string\.$#'
+			identifier: parameter.phpDocType
+			count: 2
+			path: src/SystemMessenger.php
+
+		-
+			message: '#^PHPDoc tag @return with type Axleus\\Message\\StoredMessages is incompatible with native type array\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: src/SystemMessenger.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$messages contains unknown class Axleus\\Message\\StoredMessages\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/SystemMessenger.php
+
+		-
+			message: '#^Parameter \#2 \$hops of static method Axleus\\Message\\Exception\\InvalidHopsValueException\:\:valueTooLow\(\) expects int, int\<min, 0\>\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/SystemMessenger.php
+
+		-
+			message: '#^Parameter \#2 \$key of method Axleus\\Message\\SystemMessenger\:\:send\(\) expects Axleus\\Message\\MessageLevel, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/SystemMessenger.php
+
+		-
+			message: '#^Property Axleus\\Message\\SystemMessenger\:\:\$currentMessages \(array\<string, mixed\>\) does not accept array\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/SystemMessenger.php
+
+		-
+			message: '#^Method Axleus\\Message\\SystemMessengerInterface\:\:getMessage\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/SystemMessengerInterface.php
+
+		-
+			message: '#^Method Axleus\\Message\\SystemMessengerInterface\:\:getMessage\(\) has parameter \$default with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/SystemMessengerInterface.php
+
+		-
+			message: '#^Method Axleus\\Message\\SystemMessengerInterface\:\:getMessages\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/SystemMessengerInterface.php
+
+		-
+			message: '#^Access to constant SYSTEM_MESSAGE_KEY on an unknown class Axleus\\Message\\SystemMessage\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/View/Helper/SystemMessenger.php
+
+		-
+			message: '#^Method Axleus\\Message\\View\\Helper\\SystemMessenger\:\:__invoke\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/View/Helper/SystemMessenger.php
+
+		-
+			message: '#^Method Axleus\\Message\\View\\Helper\\SystemMessenger\:\:__invoke\(\) has parameter \$default with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/View/Helper/SystemMessenger.php
+
+		-
+			message: '#^Parameter \#1 \$format of function sprintf expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/View/Helper/SystemMessenger.php
+
+		-
+			message: '#^Parameter \#6 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/View/Helper/SystemMessenger.php
+
+		-
+			message: '#^Property Axleus\\Message\\View\\Helper\\SystemMessenger\:\:\$systemMessage is unused\.$#'
+			identifier: property.unused
+			count: 1
+			path: src/View/Helper/SystemMessenger.php
+
+		-
+			message: '#^Unsafe access to private constant Axleus\\Message\\View\\Helper\\SystemMessenger\:\:MESSAGE_TOAST through static\:\:\.$#'
+			identifier: staticClassAccess.privateConstant
+			count: 1
+			path: src/View/Helper/SystemMessenger.php

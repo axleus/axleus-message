@@ -2,36 +2,46 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of the Axleus Axleus Message package.
+ *
+ * Copyright (c) 2026 Joey Smith <jsmith@webinertia.net>
+ * and contributors.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Axleus\Message;
 
-class ConfigProvider
+use Webware\CommandBus\ConfigProvider as BusProvider;
+
+final readonly class ConfigProvider
 {
-    public function __invoke() : array
+    public const MESSAGE_TEMPLATES = 'message_templates';
+
+    public function __invoke(): array
     {
         return [
-            'dependencies' => $this->getDependencies(),
-            'listeners'    => $this->getListeners(),
-            'templates'    => $this->getTemplates(),
-            'view_helpers' => $this->getViewHelpers(),
+            'dependencies'                  => $this->getDependencies(),
+            'templates'                     => $this->getTemplates(),
+            'view_helpers'                  => $this->getViewHelpers(),
+            BusProvider::class              => $this->getCommandBusConfig(),
+            SystemMessengerInterface::class => $this->getMessageTemplates(),
         ];
     }
 
     public function getDependencies(): array
     {
         return [
-            'aliases'    => [
+            'aliases'   => [
                 SystemMessengerInterface::class => SystemMessenger::class,
             ],
-            'factories'  => [
-                MessageListener::class              => Container\MessageListenerFactory::class,
-                Middleware\MessageMiddleware::class => Middleware\MessageMiddlewareFactory::class,
+            'factories' => [
+                CommandBus\PostHandleMiddleware::class => CommandBus\PostHandleMiddlewareFactory::class,
+                Middleware\MessageMiddleware::class    => Middleware\MessageMiddlewareFactory::class,
             ],
         ];
-    }
-
-    public function getListeners(): array
-    {
-        return [MessageListener::class];
     }
 
     public function getTemplates(): array
@@ -53,6 +63,30 @@ class ConfigProvider
             ],
             'factories' => [
                 View\Helper\SystemMessenger::class => View\Helper\SystemMessengerFactory::class,
+            ],
+        ];
+    }
+
+    public function getMessageTemplates(): array
+    {
+        return [
+            self::MESSAGE_TEMPLATES => [
+                // YourCommand::class => [
+                //     NotificationCapableInterface::MESSAGE_SUCCESS => 'Your success message',
+                //     NotificationCapableInterface::MESSAGE_FAILURE => 'Your failure message',
+                // ],
+            ],
+        ];
+    }
+
+    public function getCommandBusConfig(): array
+    {
+        return [
+            BusProvider::MIDDLEWARE_PIPELINE_KEY => [
+                [
+                    'middleware' => CommandBus\PostHandleMiddleware::class,
+                    'priority'   => -1,
+                ],
             ],
         ];
     }
