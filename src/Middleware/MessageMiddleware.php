@@ -17,7 +17,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 final class MessageMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private MessageListener $messageListener,
         private Helper $helper
     ) {
     }
@@ -29,8 +28,6 @@ final class MessageMiddleware implements MiddlewareInterface
             $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE),
             SystemMessengerInterface::SESSION_KEY
         );
-        // inject the SystemMessenger into the listener instance
-        $this->messageListener->setSystemMessenger($systemMessenger);
         // inject SystemMessenger into the helper instance
         $this->helper->setMessenger($systemMessenger);
         // next in the stack

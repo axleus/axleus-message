@@ -10,17 +10,17 @@ interface SystemMessengerInterface
 
     public function send(
         string $message,
-        MessageLevel|string|null $key = MessageLevel::Info,
+        MessageLevel $key = MessageLevel::Info,
         ?int $hops = 1
     ): void;
 
     public function sendNow(
         string $message,
-        MessageLevel|string|null $key = MessageLevel::Info,
+        MessageLevel $key = MessageLevel::Info,
         ?int $hops = 1
     ): void;
 
-    public function getMessage(string $key, $default = null);
+    public function getMessage(MessageLevel $key, $default = null);
     public function getMessages(): array;
     public function clearMessages(): void;
     public function addHop(): void;
