@@ -27,7 +27,6 @@ final readonly class ConfigProvider
             'dependencies'                  => $this->getDependencies(),
             'templates'                     => $this->getTemplates(),
             'view_helpers'                  => $this->getViewHelpers(),
-            CommandbusInterface::class      => $this->getCommandBusConfig(),
             SystemMessengerInterface::class => $this->getMessageTemplates(),
         ];
     }
@@ -39,7 +38,6 @@ final readonly class ConfigProvider
                 SystemMessengerInterface::class => SystemMessenger::class,
             ],
             'factories' => [
-                CommandBus\PostHandleMiddleware::class => CommandBus\PostHandleMiddlewareFactory::class,
                 Middleware\MessageMiddleware::class    => Middleware\MessageMiddlewareFactory::class,
             ],
         ];
@@ -76,18 +74,6 @@ final readonly class ConfigProvider
                 //     NotificationCapableInterface::MESSAGE_SUCCESS => 'Your success message',
                 //     NotificationCapableInterface::MESSAGE_FAILURE => 'Your failure message',
                 // ],
-            ],
-        ];
-    }
-
-    public function getCommandBusConfig(): array
-    {
-        return [
-            BusProvider::MIDDLEWARE_PIPELINE_KEY => [
-                [
-                    'middleware' => CommandBus\PostHandleMiddleware::class,
-                    'priority'   => -1,
-                ],
             ],
         ];
     }
