@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Axleus\Message;
 
+use Webware\CommandBus\CommandBusInterface;
 use Webware\CommandBus\ConfigProvider as BusProvider;
 
 final readonly class ConfigProvider
@@ -26,7 +27,7 @@ final readonly class ConfigProvider
             'dependencies'                  => $this->getDependencies(),
             'templates'                     => $this->getTemplates(),
             'view_helpers'                  => $this->getViewHelpers(),
-            BusProvider::class              => $this->getCommandBusConfig(),
+            CommandbusInterface::class      => $this->getCommandBusConfig(),
             SystemMessengerInterface::class => $this->getMessageTemplates(),
         ];
     }
