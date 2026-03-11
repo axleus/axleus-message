@@ -18,12 +18,13 @@ use Axleus\Message\MessageIcon;
 use Axleus\Message\MessageLevel;
 use Axleus\Message\SystemMessage;
 use Axleus\Message\SystemMessenger as Messenger;
+use Axleus\Message\SystemMessengerInterface;
 
 use function sprintf;
 
 class SystemMessenger
 {
-    final public const MESSAGE_KEY = SystemMessage::SYSTEM_MESSAGE_KEY;
+    final public const MESSAGE_KEY = SystemMessengerInterface::SESSION_KEY;
 
     private const MESSAGE_TOAST = <<<'EOT'
         <div class="toast" role="alert" data-bs-autohide="false" aria-live="assertive" aria-atomic="true">
@@ -43,7 +44,7 @@ class SystemMessenger
     private Messenger $messenger;
 
     public function __invoke(
-        string $messageLevel = MessageLevel::Info->value,
+        string $messageLevel = MessageLevel::Info,
         $default = null,
     ) {
         $levels   = MessageLevel::cases();

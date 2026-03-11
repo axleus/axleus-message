@@ -19,7 +19,7 @@ use Webware\CommandBus\ConfigProvider as BusProvider;
 
 final readonly class ConfigProvider
 {
-    public const MESSAGE_TEMPLATES = 'message_templates';
+    
 
     public function __invoke(): array
     {
@@ -69,7 +69,7 @@ final readonly class ConfigProvider
     public function getMessageTemplates(): array
     {
         return [
-            self::MESSAGE_TEMPLATES => [
+            SystemMessengerInterface::MESSAGE_TEMPLATES => [
                 // YourCommand::class => [
                 //     NotificationCapableInterface::MESSAGE_SUCCESS => 'Your success message',
                 //     NotificationCapableInterface::MESSAGE_FAILURE => 'Your failure message',
