@@ -16,6 +16,7 @@ namespace Axleus\Message;
 
 interface SystemMessengerInterface
 {
+    public const MESSAGE_TEMPLATES = 'message_templates';
     public const SESSION_KEY = self::class . '::SYSTEM_MESSENGER_NEXT';
 
     public function send(
