@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Axleus\Message\Middleware;
 
-use Axleus\Message\MessageListener;
 use Axleus\Message\View\Helper\SystemMessenger;
 use Laminas\View\HelperPluginManager;
 use Psr\Container\ContainerInterface;
@@ -26,7 +25,6 @@ final class MessageMiddlewareFactory
         $helperManager = $container->get(HelperPluginManager::class);
 
         return new MessageMiddleware(
-            $container->get(MessageListener::class),
             $helperManager->get(SystemMessenger::class)
         );
     }
