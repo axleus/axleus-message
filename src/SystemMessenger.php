@@ -133,6 +133,11 @@ class SystemMessenger implements SystemMessengerInterface
         return $this->currentMessages;
     }
 
+    public function hasMessages(): bool
+    {
+        return ! empty($this->currentMessages) || ! empty($this->getStoredMessages());
+    }
+
     /**
      * Clear all message values.
      *
