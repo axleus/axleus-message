@@ -35,6 +35,8 @@ interface SystemMessengerInterface
 
     public function getMessages(): array;
 
+    public function hasMessages(): bool;
+
     public function clearMessages(): void;
 
     public function addHop(): void;
