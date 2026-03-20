@@ -23,15 +23,17 @@ interface SystemMessengerInterface
         string $message,
         MessageLevel $key = MessageLevel::Info,
         ?int $hops = 1,
+        string|int|null $id = null,
     ): void;
 
     public function sendNow(
         string $message,
         MessageLevel $key = MessageLevel::Info,
         ?int $hops = 1,
+        string|int|null $id = null,
     ): void;
 
-    public function getMessage(MessageLevel $key, $default = null);
+    public function getMessage(MessageLevel $key, array $default = []): array;
 
     public function getMessages(): array;
 
@@ -41,11 +43,11 @@ interface SystemMessengerInterface
 
     public function addHop(): void;
 
-    public function danger(string $message, ?int $hops = 1, bool $now = true): void;
+    public function danger(string $message, ?int $hops = 1, bool $now = true, string|int|null $id = null): void;
 
-    public function info(string $message, ?int $hops = 1, bool $now = true): void;
+    public function info(string $message, ?int $hops = 1, bool $now = true, string|int|null $id = null): void;
 
-    public function success(string $message, ?int $hops = 1, bool $now = true): void;
+    public function success(string $message, ?int $hops = 1, bool $now = true, string|int|null $id = null): void;
 
-    public function warning(string $message, ?int $hops = 1, bool $now = true): void;
+    public function warning(string $message, ?int $hops = 1, bool $now = true, string|int|null $id = null): void;
 }

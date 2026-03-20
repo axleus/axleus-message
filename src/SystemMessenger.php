@@ -41,18 +41,20 @@ class SystemMessenger implements SystemMessengerInterface
      */
     public function send(
         string $message,
-        MessageLevel $key = MessageLevel::Info,
+        MessageLevel|string $key = MessageLevel::Info,
         ?int $hops = 1,
+        string|int|null $id = null,
     ): void {
         if ($hops < 1) {
-            throw Exception\InvalidHopsValueException::valueTooLow($key->value, $hops);
+            throw Exception\InvalidHopsValueException::valueTooLow($key instanceof MessageLevel ? $key->value : $key, $hops);
         }
 
         $messages              = $this->getStoredMessages();
-        $messages[$key->value] = [
+        $messages[$key instanceof MessageLevel ? $key->value : $key][] = [
             'message' => $message,
             'hops'    => $hops,
-            'key'     => $key->value,
+            'key'     => $key instanceof MessageLevel ? $key->value : $key,
+            'id'      => $id,
         ];
         $this->session->set($this->sessionKey, $messages);
     }
@@ -71,37 +73,43 @@ class SystemMessenger implements SystemMessengerInterface
      */
     public function sendNow(
         string $message,
-        MessageLevel $key = MessageLevel::Info,
+        MessageLevel|string $key = MessageLevel::Info,
         ?int $hops = 1,
+        string|int|null $id = null,
     ): void {
-        $this->currentMessages[$key->value] = $message;
+        $this->currentMessages[$key instanceof MessageLevel ? $key->value : $key][] = [
+            'message' => $message,
+            'hops'    => 0,
+            'key'     => $key instanceof MessageLevel ? $key->value : $key,
+            'id'      => $id,
+        ];
         if ($hops > 0) {
-            $this->send($message, $key, $hops);
+            $this->send($message, $key, $hops, $id);
         }
     }
 
-    public function danger(string $message, ?int $hops = 0, bool $now = true): void
+    public function danger(string $message, ?int $hops = 0, bool $now = true, string|int|null $id = null): void
     {
-        $now ? $this->sendNow($message, MessageLevel::Danger, $hops)
-            : $this->send($message, MessageLevel::Danger, $hops);
+        $now ? $this->sendNow($message, MessageLevel::Danger, $hops, $id)
+            : $this->send($message, MessageLevel::Danger, $hops, $id);
     }
 
-    public function info(string $message, ?int $hops = 0, bool $now = true): void
+    public function info(string $message, ?int $hops = 0, bool $now = true, string|int|null $id = null): void
     {
-        $now ? $this->sendNow($message, MessageLevel::Info, $hops)
-            : $this->send($message, MessageLevel::Info, $hops);
+        $now ? $this->sendNow($message, MessageLevel::Info, $hops, $id)
+            : $this->send($message, MessageLevel::Info, $hops, $id);
     }
 
-    public function success(string $message, ?int $hops = 0, bool $now = true): void
+    public function success(string $message, ?int $hops = 0, bool $now = true, string|int|null $id = null): void
     {
-        $now ? $this->sendNow($message, MessageLevel::Success, $hops)
-            : $this->send($message, MessageLevel::Success, $hops);
+        $now ? $this->sendNow($message, MessageLevel::Success, $hops, $id)
+            : $this->send($message, MessageLevel::Success, $hops, $id);
     }
 
-    public function warning(string $message, ?int $hops = 0, bool $now = true): void
+    public function warning(string $message, ?int $hops = 0, bool $now = true, string|int|null $id = null): void
     {
-        $now ? $this->sendNow($message, MessageLevel::Warning, $hops)
-            : $this->send($message, MessageLevel::Warning, $hops);
+        $now ? $this->sendNow($message, MessageLevel::Warning, $hops, $id)
+            : $this->send($message, MessageLevel::Warning, $hops, $id);
     }
 
     /**
@@ -113,11 +121,12 @@ class SystemMessenger implements SystemMessengerInterface
      * WILL NOT return a value if set in the current request via `send()`.
      *
      * @param mixed $default Default value to return if no message value exists.
-     * @return mixed
+     * @return array
      */
-    public function getMessage(MessageLevel $key, $default = null)
+    public function getMessage(MessageLevel|string $key, array $default = []): array
     {
-        return $this->currentMessages[$key->value] ?? $default;
+        //return $this->currentMessages[$key instanceof MessageLevel ? $key->value : $key] ?? $default;
+        return $this->getMessages()[$key instanceof MessageLevel ? $key->value : $key] ?? $default;
     }
 
     /**
@@ -130,12 +139,17 @@ class SystemMessenger implements SystemMessengerInterface
      */
     public function getMessages(): array
     {
-        return $this->currentMessages;
+        return array_map(
+            static function (array $messages): array {
+                return array_map(fn(array $message): string => $message['message'], $messages);
+            },
+            $this->currentMessages,
+        );
     }
 
     public function hasMessages(): bool
     {
-        return ! empty($this->currentMessages) || ! empty($this->getStoredMessages());
+        return ! empty($this->currentMessages);
     }
 
     /**
@@ -153,15 +167,13 @@ class SystemMessenger implements SystemMessengerInterface
      */
     public function addHop(): void
     {
-        $messages = $this->getStoredMessages();
-
-        /** @var mixed $message */
         foreach ($this->currentMessages as $key => $message) {
-            if (isset($messages[$key])) {
-                continue;
+            foreach ($message as $index => $data) {
+                if ($data['hops'] > 0) {
+                    continue;
+                }
+                $this->currentMessages[$key][$index]['hops']++;
             }
-
-            $this->send($key, $message);
         }
     }
 
@@ -173,32 +185,30 @@ class SystemMessenger implements SystemMessengerInterface
 
         $sessionMessages = $this->getStoredMessages($sessionKey);
 
-        /** @var array<string,mixed> $currentMessages */
-        $currentMessages = [];
-        foreach ($sessionMessages as $key => $data) {
-            // $data['key'] = $key;
-            $currentMessages[$key] = $data;
-
-            if ($data['hops'] === 1) {
-                unset($sessionMessages[$key]);
-
-                continue;
+        foreach ($sessionMessages as $key => $list) {
+            foreach ($list as $index => $data) {
+                if ($data['hops'] === 0) {
+                    unset($sessionMessages[$key][$index]);
+                    continue;
+                }
+                $sessionMessages[$key][$index]['hops']--;
             }
+            
+            $sessionMessages[$key] = array_values($sessionMessages[$key]);
 
-            $data['hops'] -= 1;
-            $sessionMessages[$key] = $data;
+            if ($sessionMessages[$key] === []) {
+                unset($sessionMessages[$key]);
+            }
         }
 
         empty($sessionMessages)
-            ? $session->unset($sessionKey)
-            : $session->set($sessionKey, $sessionMessages);
+        ? $session->unset($sessionKey) 
+        : $session->set($sessionKey, $sessionMessages);
+        
 
-        $this->currentMessages = $currentMessages;
+        $this->currentMessages = $sessionMessages;
     }
 
-    /**
-     * @return StoredMessages
-     */
     private function getStoredMessages(?string $sessionKey = null): array
     {
         /** @var StoredMessages|null $messages */

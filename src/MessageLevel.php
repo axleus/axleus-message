@@ -20,4 +20,5 @@ enum MessageLevel: string
     case Danger  = 'danger';
     case Warning = 'warning';
     case Info    = 'info';
+    case Message = 'message'; // SSE base message type
 }
